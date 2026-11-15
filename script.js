@@ -130,49 +130,54 @@ const gameController = (() => {
         const rowData = checkArrayForWin(rowsArr);
         const rowStatus = rowData[0].playerNum;
 
-        if (rowStatus !== -1) {
-            const colData = checkArrayForWin(colsArr);
-            const colStatus = colData[0].playerNum;
-            const diagData = checkArrayForWin(diagsArr);
-            const diagStatus = diagData[0].playerNum;
+        //if (rowStatus !== -1) {
+        const colData = checkArrayForWin(colsArr);
+        const colStatus = colData[0].playerNum;
+        const diagData = checkArrayForWin(diagsArr);
+        const diagStatus = diagData[0].playerNum;
 
-            if (rowStatus === 1 || colStatus === 1 || diagStatus === 1) {
-                console.log('1 Won!');
-                winner = 1;
+        if (rowStatus === 1 || colStatus === 1 || diagStatus === 1) {
+            console.log('1 Won!');
+            winner = 1;
 
-                if (rowStatus === 1) {
-                    winningCellsArr = rowData;
-                }
-                else if (colStatus === 1) {
-                    winningCellsArr = colData;
-                }
-                else {
-                    winningCellsArr = diagData;
-                }
-                console.log(winningCellsArr);
+            if (rowStatus === 1) {
+                winningCellsArr = rowData;
             }
-            else if (rowStatus === 2 || colStatus === 2 || diagStatus === 2) {
-                console.log('2 Won!');
-                winner = 2;
-
-                if (rowStatus === 2) {
-                    winningCellsArr = rowData;
-                }
-                else if (colStatus === 2) {
-                    winningCellsArr = colData;
-                }
-                else {
-                    winningCellsArr = diagData;
-                }
-                console.log(winningCellsArr);
+            else if (colStatus === 1) {
+                winningCellsArr = colData;
             }
             else {
-                console.log('No winner yet, keep playing.');
+                winningCellsArr = diagData;
             }
+            console.log(winningCellsArr);
+        }
+        else if (rowStatus === 2 || colStatus === 2 || diagStatus === 2) {
+            console.log('2 Won!');
+            winner = 2;
+
+            if (rowStatus === 2) {
+                winningCellsArr = rowData;
+            }
+            else if (colStatus === 2) {
+                winningCellsArr = colData;
+            }
+            else {
+                winningCellsArr = diagData;
+            }
+            console.log(winningCellsArr);
         }
         else {
-            console.log('Tie, no winner');
+            if (rowStatus !== -1) {
+                console.log('No winner yet, keep playing.');
+            }
+            else {
+                console.log('Tie, no winner');
+            }
         }
+        //}
+        //else {
+        //    console.log('Tie, no winner');
+        //}
     }
 
     function checkArrayForWin(ar) {
