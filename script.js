@@ -1,11 +1,13 @@
 const gameboard = (() => {
-    const board = [];
+    let board = [];
     const rows = 3;
     const cols = 3;
 
-    for (let i = 0; i < (rows * cols); i++) {
-        board[i] = createCell(i);
-    }
+    // for (let i = 0; i < (rows * cols); i++) {
+    //     board[i] = createCell(i);
+    // }
+
+    createBoard();
 
     const getBoard = () => board;
 
@@ -32,6 +34,17 @@ const gameboard = (() => {
                 logAr = [];
             }
         }
+    };
+
+    const clearBoard = () => {
+        board = [];
+        createBoard();
+    };
+
+    function createBoard() {
+        for (let i = 0; i < (rows * cols); i++) {
+            board[i] = createCell(i);
+        }
     }
 
     function createCell(index) {
@@ -52,7 +65,7 @@ const gameboard = (() => {
         return { updateCellPlayer, getCellData };
     }
 
-    return { getBoard, addMark, logBoard }
+    return { getBoard, addMark, logBoard, clearBoard }
 })();
 
 const gameController = (() => {
@@ -68,6 +81,10 @@ const gameController = (() => {
             gameboard.logBoard();
         }
 
+    };
+
+    const restartGame = () => {
+        gameboard.clearBoard();
     };
 
     //track who's turn it is
@@ -208,7 +225,5 @@ const gameController = (() => {
         return boardFull ? [{ playerNum: -1 }] : [{ playerNum: 0 }];
     }
 
-    //restart the game
-
-    return { playRound };
+    return { playRound, restartGame };
 })();
