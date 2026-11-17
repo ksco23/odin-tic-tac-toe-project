@@ -83,16 +83,12 @@ const gameController = (() => {
         const colsArr = [];
         const diagsArr = [];
 
-        //let isBoardFull = true;
         let winner = 0;
         let winningCellsArr = [];
 
         board.forEach(function (boardCell, i) {
             const cellData = boardCell.getCellData();
             //console.log(cellData);
-            /*if (isBoardFull && cellData.playerNum === 0) {
-                isBoardFull = false;
-            }*/
 
             if (rowsArr.at(cellData.rowNum) !== undefined) {
                 rowsArr[cellData.rowNum][cellData.colNum] = cellData/*.playerNum*/;
@@ -129,8 +125,6 @@ const gameController = (() => {
 
         const rowData = checkArrayForWin(rowsArr);
         const rowStatus = rowData[0].playerNum;
-
-        //if (rowStatus !== -1) {
         const colData = checkArrayForWin(colsArr);
         const colStatus = colData[0].playerNum;
         const diagData = checkArrayForWin(diagsArr);
@@ -174,10 +168,6 @@ const gameController = (() => {
                 console.log('Tie, no winner');
             }
         }
-        //}
-        //else {
-        //    console.log('Tie, no winner');
-        //}
     }
 
     function checkArrayForWin(ar) {
@@ -213,19 +203,6 @@ const gameController = (() => {
             else {
                 boardFull = false;
             }
-
-
-            /*if (!innerAr.includes(0)) {
-                if (innerAr.includes(1) && !innerAr.includes(2)) {
-                    return 1;
-                }
-                if (innerAr.includes(2) && !innerAr.includes(1)) {
-                    return 2;
-                }
-            }
-            else {
-                boardFull = false;
-            }*/
         }
 
         return boardFull ? [{ playerNum: -1 }] : [{ playerNum: 0 }];
