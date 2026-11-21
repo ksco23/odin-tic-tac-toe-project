@@ -47,7 +47,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #e5e5e5;
     color: #000;
     line-height: 0;
     letter-spacing: 0;
@@ -59,4 +58,11 @@ body {
 .cell:hover {
     background-color: #b7b7b7;
     cursor: pointer;
+}
+
+.cell,
+.cell.full:hover,
+.boardContainer.complete .cell:hover {
+    background-color: #e5e5e5;
+    cursor: not-allowed;
 }

@@ -1,3 +1,62 @@
+const domControl = (() => {
+
+    let isBoardLocked = false;
+
+    const boardContainer = document.querySelector('.boardContainer');
+    boardContainer.addEventListener('click', function (e) {
+        if (!isBoardLocked) {
+            if (typeof e.target.dataset.boardIndex !== 'undefined') {
+                gameController.playRound(e.target.dataset.boardIndex);
+            }
+        }
+    });
+
+    const update = (boardArr) => {
+        //console.log(boardArr);
+
+        boardArr.forEach(function (cell) {
+            //console.log(cell.getCellData());
+            const data = cell.getCellData();
+            const cellDiv = document.querySelector(`[data-board-index="${data.cellIndex}"]`);
+            if (data.playerNum === 1) {
+                cellDiv.textContent = 'X';
+                cellDiv.classList.toggle('full', true);
+            }
+            else if (data.playerNum === 2) {
+                cellDiv.textContent = 'O';
+                cellDiv.classList.toggle('full', true);
+            }
+            else {
+                cellDiv.textContent = '';
+                cellDiv.classList.toggle('full', false);
+            }
+        });
+    };
+
+    const gameComplete = (winner) => {
+        isBoardLocked = true;
+        if (winner === 1) {
+            console.log('1 is the winner');
+        }
+        else if (winner === 2) {
+            console.log('2 is the winner');
+        }
+        else if (winner === 0) {
+            console.log('Tie, no winner');
+        }
+
+        boardContainer.classList.toggle('complete', true);
+    }
+
+    const gameRestart = () => {
+        isBoardLocked = false;
+
+        boardContainer.classList.toggle('complete', false);
+    }
+
+    return { update, gameComplete, gameRestart }
+})();
+
 const gameboard = (() => {
     let board = [];
     const rows = 3;
@@ -17,7 +76,7 @@ const gameboard = (() => {
             return true;
         }
         else {
-            console.log('invalid cell');
+            //console.log('invalid cell');
             return false;
         }
     };
@@ -45,9 +104,12 @@ const gameboard = (() => {
         for (let i = 0; i < (rows * cols); i++) {
             board[i] = createCell(i);
         }
+
+        domControl.update(board);
     }
 
     function createCell(index) {
+        const cellIndex = index;
         const rowNum = Math.trunc(index / cols);
         const colNum = index % cols;
         const diagonal1 = colNum === rowNum;
@@ -59,7 +121,7 @@ const gameboard = (() => {
         };
 
         const getCellData = () => {
-            return { rowNum, colNum, diagonal1, diagonal2, playerNum };
+            return { cellIndex, rowNum, colNum, diagonal1, diagonal2, playerNum };
         };
 
         return { updateCellPlayer, getCellData };
@@ -69,7 +131,7 @@ const gameboard = (() => {
 })();
 
 const gameController = (() => {
-    gameboard.logBoard();
+    //gameboard.logBoard();
 
     let curPlayer = 1;
 
@@ -78,13 +140,15 @@ const gameController = (() => {
 
             checkResult();
             changeTurn();
-            gameboard.logBoard();
+            //gameboard.logBoard();
+            domControl.update(gameboard.getBoard());
         }
-
     };
 
     const restartGame = () => {
+        curPlayer = 1;
         gameboard.clearBoard();
+        domControl.gameRestart();
     };
 
     //track who's turn it is
@@ -160,6 +224,8 @@ const gameController = (() => {
             else {
                 winningCellsArr = diagData;
             }
+
+            domControl.gameComplete(winner);
             console.log(winningCellsArr);
         }
         else if (rowStatus === 2 || colStatus === 2 || diagStatus === 2) {
@@ -175,6 +241,8 @@ const gameController = (() => {
             else {
                 winningCellsArr = diagData;
             }
+
+            domControl.gameComplete(winner);
             console.log(winningCellsArr);
         }
         else {
@@ -182,6 +250,7 @@ const gameController = (() => {
                 console.log('No winner yet, keep playing.');
             }
             else {
+                domControl.gameComplete(0);
                 console.log('Tie, no winner');
             }
         }
