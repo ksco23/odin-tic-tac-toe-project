@@ -22,6 +22,50 @@ body {
     background-color: #232323;
 }
 
+.header {
+    padding: 10px;
+    background-color: #fff;
+}
+
+.playersContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: 5px;
+}
+
+.player {
+    padding: 5px;
+    border: 1px solid #000;
+    line-height: 1;
+    text-align: center;
+    display: grid;
+    grid-template-columns: 20px auto 20px;
+}
+
+.player .token {
+    margin: 0 0 5px;
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.player .name {
+    margin: 0;
+}
+
+.gameContainer.complete .player .turnIndicator,
+.player .turnIndicator {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    background-color: #ff0000;
+    opacity: 0;
+    margin: auto;
+}
+
+.player.active .turnIndicator {
+    opacity: 1;
+}
+
 .gameContainer {
     display: grid;
     grid-template-rows: auto 1fr;
@@ -62,7 +106,7 @@ body {
 
 .cell,
 .cell.full:hover,
-.boardContainer.complete .cell:hover {
+.gameContainer.complete .cell:hover {
     background-color: #e5e5e5;
     cursor: not-allowed;
 }

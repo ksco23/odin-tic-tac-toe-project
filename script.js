@@ -1,6 +1,7 @@
 const domControl = (() => {
 
     let isBoardLocked = false;
+    const gameContainer = document.querySelector('.gameContainer')
 
     const boardContainer = document.querySelector('.boardContainer');
     boardContainer.addEventListener('click', function (e) {
@@ -33,6 +34,18 @@ const domControl = (() => {
         });
     };
 
+    const changePlayer = (curPlayer) => {
+        document.querySelectorAll('.player').forEach((el, i) => {
+            if (Number(el.dataset.playerNumber) === curPlayer) {
+                el.classList.toggle('active', true);
+            }
+            else {
+                el.classList.toggle('active', false);
+            }
+        });
+
+    }
+
     const gameComplete = (winner) => {
         isBoardLocked = true;
         if (winner === 1) {
@@ -45,16 +58,16 @@ const domControl = (() => {
             console.log('Tie, no winner');
         }
 
-        boardContainer.classList.toggle('complete', true);
+        gameContainer.classList.toggle('complete', true);
     }
 
     const gameRestart = () => {
         isBoardLocked = false;
 
-        boardContainer.classList.toggle('complete', false);
+        gameContainer.classList.toggle('complete', false);
     }
 
-    return { update, gameComplete, gameRestart }
+    return { update, changePlayer, gameComplete, gameRestart }
 })();
 
 const gameboard = (() => {
@@ -133,7 +146,8 @@ const gameboard = (() => {
 const gameController = (() => {
     //gameboard.logBoard();
 
-    let curPlayer = 1;
+    let curPlayer = 0;
+    changeTurn();
 
     const playRound = (cell) => {
         if (gameboard.addMark(curPlayer, cell)) {
@@ -146,7 +160,8 @@ const gameController = (() => {
     };
 
     const restartGame = () => {
-        curPlayer = 1;
+        curPlayer = 0;
+        changeTurn();
         gameboard.clearBoard();
         domControl.gameRestart();
     };
@@ -154,6 +169,7 @@ const gameController = (() => {
     //track who's turn it is
     function changeTurn() {
         curPlayer = curPlayer === 1 ? 2 : 1;
+        domControl.changePlayer(curPlayer);
     }
 
     //check for a win or tie

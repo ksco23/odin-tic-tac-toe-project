@@ -11,11 +11,21 @@
 <body>
     <div class="gameContainer">
         <div class="header">
-            <div class="player1">
-                Player 1 (X)
-            </div>
-            <div class="player2">
-                Player 2 (O)
+            <div class="playersContainer">
+                <div class="player" data-player-number="1">
+                    <div class="turnIndicator"></div>
+                    <div>
+                        <p class="token">X</p>
+                        <p class="name">Player 1</p>
+                    </div>
+                </div>
+                <div class="player" data-player-number="2">
+                    <div class="turnIndicator"></div>
+                    <div>
+                        <p class="token">O</p>
+                        <p class="name">Player 2</p>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="boardContainer">
