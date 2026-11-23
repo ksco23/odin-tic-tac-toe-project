@@ -177,17 +177,25 @@ body {
 }
 
 .boardContainer {
+    display: flex;
+    justify-content: center;
+    container-type: size;
+}
+
+.boardContainer .grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
-    max-width: 100%;
+    width: 100cqmin;
+    height: 100cqmin;
+    /* max-width: 100%;
     max-height: 100%;
     min-width: 0;
     min-height: 0;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 1 / 1; */
     gap: clamp(5px, 3vw, 10px);
     padding: 10px;
-    justify-self: center;
+    /* justify-self: center; */
     container-type: inline-size;
 }
 
